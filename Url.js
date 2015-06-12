@@ -1,5 +1,5 @@
 /*!
- * Url v1.2.1
+ * Url v1.2.2
  * http://www.noindoin.com/
  *
  * Copyright 2014 Jiang Fengming <fenix@noindoin.com>
@@ -80,18 +80,21 @@ Url.prototype = {
     this.parse(url);
   },
 
+  get search() {
+    return Url.formatSearch(this.query);
+  },
+
+  set search(s) {
+    this.query = Url.parseSearch(s);
+  },
+
   set: function(key, value) {
     this[key] = value;
     return this;
   },
 
   format: function() {
-    var url = this.protocol + '//' + this.host + this.pathname;
-    if (this.query)
-      url += Url.formatSearch(this.query);
-    if (this.hash)
-      url += this.hash;
-    return url;
+    return this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
   },
 
   addQuery: function(name, value) {
