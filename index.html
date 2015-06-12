@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html class="" lang="zh-CN">
-<head>
-<meta charset="utf-8" />
-<title>Url.js</title>
-<script src="Url.js"></script>
-</head>
-<body>
-
-<script>
-var url = new Url();
-console.log(url);
-url.query.foo = 'bar';
-console.log(url.href);
-</script>
-</body>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="Url.js"></script>
+  </head>
+  <body>
+    <script>
+      var url = new Url();
+      console.log(url);
+      url.query.foo = 'bar';
+      console.log(url.href);
+    </script>
+  </body>
 </html>

@@ -1,5 +1,5 @@
 /*!
- * Url.js v1.1
+ * Url.js v1.2.0
  * http://www.noindoin.com/
  *
  * Copyright 2014 Jiang Fengming <fenix@noindoin.com>
@@ -50,13 +50,23 @@ Url.prototype = {
     } else {
       var obj = document.createElement('a');
       obj.href = url;
+
+      // IE doesn't populate all link properties when setting .href with a relative URL,
+      // however .href will return an absolute URL which then can be used on itself
+      // to populate these additional fields.
+      obj.href = obj.href;
     }
 
     this.protocol = obj.protocol;
     this.host = obj.host;
     this.hostname = obj.hostname;
     this.port = obj.port;
+
+    // pathname doesn't include the leading slash in IE
     this.pathname = obj.pathname;
+    if (this.pathname.charAt(0) != '/')
+      this.pathname = '/' + this.pathname;
+
     this.search = obj.search;
     this.hash = obj.hash;
     this.query = Url.parseSearch(obj.search);
@@ -68,6 +78,11 @@ Url.prototype = {
 
   set href(url) {
     this.parse(url);
+  },
+
+  set: function(key, value) {
+    this[key] = value;
+    return this;
   },
 
   format: function() {
@@ -110,3 +125,7 @@ Url.prototype = {
     return this.format();
   }
 };
+
+// CommonJS
+if (typeof module != 'undefined' && module.exports)
+  module.exports = Url;
