@@ -1,4 +1,4 @@
-# Url.js
+# Url
 
 ```js
 var url = new Url();
