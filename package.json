@@ -1,0 +1,22 @@
+{
+  "name": "browser-url",
+  "version": "1.2.0",
+  "description": "browser-side URL utility",
+  "main": "Url.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fenivana/Url.js.git"
+  },
+  "keywords": [
+    "url"
+  ],
+  "author": "Jiang Fengming <fenix@noindoin.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fenivana/Url.js/issues"
+  },
+  "homepage": "https://github.com/fenivana/Url.js#readme"
+}
