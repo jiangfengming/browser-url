@@ -1,5 +1,5 @@
 /*!
- * Url v1.2.2
+ * Url v1.2.3
  * http://www.noindoin.com/
  *
  * Copyright 2014 Jiang Fengming <fenix@noindoin.com>
@@ -94,7 +94,11 @@ Url.prototype = {
   },
 
   format: function() {
-    return this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
+    // If the protocol is https, IE will append port number 443 on 'host'
+    // We use a.href to get rid of it.
+    var a = document.createElement('a');
+    a.href = this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
+    return a.href;
   },
 
   addQuery: function(name, value) {
