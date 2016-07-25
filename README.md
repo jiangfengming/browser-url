@@ -29,3 +29,6 @@ bar: 2
 
 console.log(url.set('search', '?foo=2&bar=3').query);
 ```
+
+## License
+MIT

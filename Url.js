@@ -1,11 +1,3 @@
-/*!
- * Url v1.2.3
- * http://www.noindoin.com/
- *
- * Copyright 2014 Jiang Fengming <fenix@noindoin.com>
- * Released under the MIT license
- */
-
 function Url(url) {
   this.parse(url);
 }
