@@ -58,18 +58,40 @@ Url.prototype = {
     }
 
     this.protocol = obj.protocol;
-    this.host = obj.host;
     this.hostname = obj.hostname;
     this.port = obj.port;
-
-    // pathname doesn't include the leading slash in IE
-    this.pathname = obj.pathname;
-    if (this.pathname.charAt(0) != '/')
-      this.pathname = '/' + this.pathname;
-
     this.search = obj.search;
     this.hash = obj.hash;
     this.query = Url.parseSearch(obj.search);
+    // pathname doesn't include the leading slash in IE
+    this.pathname = obj.pathname;
+    if (this.pathname.charAt(0) != '/') {
+      this.pathname = '/' + this.pathname;
+    }
+  },
+
+  get host() {
+    return this.hostname + (this.port ? ':' + this.port : '');
+  },
+
+  set host(h) {
+    h = h.split(':');
+    this.hostname = h[0];
+    if (h[1]) {
+      this.port = h[1];
+    }
+  },
+
+  get port() {
+    return (this.protocol == 'http:' && this._port == '80') || (this.protocol == 'https:' && this._port == '443') ? '' : this._port;
+  },
+
+  set port(p) {
+    if (!p) {
+      p = this.protocol == 'http:' ? '80' : '443';
+    }
+
+    this._port = p;
   },
 
   get href() {
@@ -94,11 +116,7 @@ Url.prototype = {
   },
 
   format: function() {
-    // If the protocol is https, IE will append port number 443 on 'host'
-    // We use a.href to get rid of it.
-    var a = document.createElement('a');
-    a.href = this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
-    return a.href;
+    return this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
   },
 
   addQuery: function(name, value) {
@@ -108,14 +126,18 @@ Url.prototype = {
     } else {
       var obj = name;
     }
-    for (var p in obj)
+
+    for (var p in obj) {
       this.query[p] = obj[p];
+    }
+
     return this;
   },
 
   removeQuery: function() {
-    for (var i = arguments.length - 1; i >= 0; i--)
+    for (var i = arguments.length - 1; i >= 0; i--) {
       delete this.query[arguments[i]];
+    }
     return this;
   },
 
@@ -134,5 +156,6 @@ Url.prototype = {
 };
 
 // CommonJS
-if (typeof module != 'undefined' && module.exports)
+if (typeof module != 'undefined' && module.exports) {
   module.exports = Url;
+}
