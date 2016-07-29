@@ -75,15 +75,15 @@ Url.prototype = {
   },
 
   get port() {
-    return (this.protocol == 'http:' && this._port == '80') || (this.protocol == 'https:' && this._port == '443') ? '' : this._port;
+    return this._port;
   },
 
   set port(p) {
-    if (!p) {
-      p = this.protocol == 'http:' ? '80' : '443';
+    if ((this.protocol == 'http:' && p == '80') || (this.protocol == 'https:' && p == '443')) {
+      p = '';
     }
 
-    this._port = p;
+    this._port = p || '';
   },
 
   get href() {
