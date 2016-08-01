@@ -112,15 +112,17 @@ Url.prototype = {
   },
 
   addQuery: function(name, value) {
-    if (name.constructor == String) {
-      var obj = {};
-      obj[name] = value;
-    } else {
-      var obj = name;
-    }
+    if (name != null) {
+      if (name.constructor == String) {
+        var obj = {};
+        obj[name] = value;
+      } else {
+        var obj = name;
+      }
 
-    for (var p in obj) {
-      this.query[p] = obj[p];
+      for (var p in obj) {
+        this.query[p] = obj[p];
+      }
     }
 
     return this;

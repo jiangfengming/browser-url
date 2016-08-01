@@ -20,11 +20,14 @@ console.log(url.query);
 url.query.foo = 'bar';
 console.log(url.href);
 
-console.log(url.addQuery('foo', 1).removeQuery('one', 'two').href);
+console.log(url.addQuery('one', 1).addQuery({
+  two: 2,
+  foo: 3
+}).removeQuery('one', 'two').href);
 
 console.log(url.setQuery({
-foo: 1,
-bar: 2
+  foo: 1,
+  bar: 2
 }).set('hash', '#p1').href);
 
 console.log(url.set('search', '?foo=2&bar=3').query);
