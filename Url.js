@@ -108,7 +108,11 @@ Url.prototype = {
   },
 
   format: function() {
-    return this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
+    if (this.host) {
+      return this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
+    } else {
+      return this.protocol + this.pathname + this.search + this.hash;
+    }
   },
 
   addQuery: function(name, value) {
