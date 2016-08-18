@@ -12,8 +12,9 @@ Url.parseSearch = function(search) {
       if (query[key] == undefined) {
         query[key] = value;
       } else {
-        if (query[key].constructor != Array)
+        if (query[key].constructor != Array) {
           query[key] = [query[key]];
+        }
         query[key].push(value);
       }
     });
@@ -25,11 +26,13 @@ Url.formatSearch = function(query) {
   var search = '';
   for (var p in query) {
     [].concat(query[p]).forEach(function(val) {
-      if (val == null)
+      if (val == null) {
         return;
+      }
       search += '&' + encodeURIComponent(p);
-      if (val !== '')
+      if (val !== '') {
         search += '=' + encodeURIComponent(val);
+      }
     });
   }
   return search ? '?' + search.slice(1) : '';
@@ -141,6 +144,20 @@ Url.prototype = {
 
   setQuery: function(query) {
     this.query = query;
+    return this;
+  },
+
+  sortQuery: function(fn) {
+    var query = this.query;
+    var arr = [];
+    for (var key in query) {
+      arr.push(key);
+    }
+    var sortedQuery = {};
+    arr.sort(fn).forEach(function(key) {
+      sortedQuery[key] = query[key];
+    });
+    this.query = sortedQuery;
     return this;
   },
 

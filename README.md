@@ -31,6 +31,7 @@ console.log(url.setQuery({
 }).set('hash', '#p1').href);
 
 console.log(url.set('search', '?foo=2&bar=3').query);
+console.log(url.sortQuery().href);
 ```
 
 ## License
