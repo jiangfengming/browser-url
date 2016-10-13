@@ -7,8 +7,8 @@ Url.parseSearch = function(search) {
   if (search.length > 1) {
     search.slice(1).split('&').forEach(function(s) {
       var pair = s.split('=');
-      var key = decodeURIComponent(pair[0]);
-      var value = pair.length == 1 ? '' : decodeURIComponent(pair[1]);
+      var key = decodeURIComponent(pair[0].replace(/\+/g, ' '));
+      var value = pair.length == 1 ? '' : decodeURIComponent(pair[1].replace(/\+/g, ' '));
       if (query[key] == undefined) {
         query[key] = value;
       } else {

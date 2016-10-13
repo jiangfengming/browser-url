@@ -1,6 +1,6 @@
 {
   "name": "browser-url",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "URL utility for browser",
   "main": "Url.js",
   "scripts": {
