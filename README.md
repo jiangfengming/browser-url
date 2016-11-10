@@ -3,19 +3,19 @@
 ```js
 // use current location
 var url = new Url();
-console.log(url);
+console.log('current location', url);
 
 url = new Url('http://www.example.com/foo/bar?a=1&b=2#p2');
-console.log(url);
-console.log(url.href);
-console.log(url.protocol);
-console.log(url.host);
-console.log(url.hostname);
-console.log(url.port);
-console.log(url.pathname);
-console.log(url.search);
-console.log(url.hash);
-console.log(url.query);
+console.log('http://www.example.com/foo/bar?a=1&b=2#p2', url);
+console.log('href:', url.href);
+console.log('protocol: ', url.protocol);
+console.log('host:', url.host);
+console.log('hostname:', url.hostname);
+console.log('port:', url.port);
+console.log('pathname:', url.pathname);
+console.log('search:', url.search);
+console.log('hash:', url.hash);
+console.log('query:', url.query);
 
 url.query.foo = 'bar';
 console.log(url.href);
