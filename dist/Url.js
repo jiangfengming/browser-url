@@ -1,19 +1,52 @@
-'use strict';
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) {
+    define(['module', 'exports'], factory);
+  } else if (typeof exports !== "undefined") {
+    factory(module, exports);
+  } else {
+    var mod = {
+      exports: {}
+    };
+    factory(mod, mod.exports);
+    global.Url = mod.exports;
+  }
+})(this, function (module, exports) {
+  'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+  exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Url = function () {
-  function Url(url) {
-    _classCallCheck(this, Url);
-
-    this.parse(url);
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
   }
 
-  _createClass(Url, [{
-    key: 'parse',
-    value: function parse(url) {
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var Url = function () {
+    function Url(url) {
+      _classCallCheck(this, Url);
+
+      this.parse(url);
+    }
+
+    Url.prototype.parse = function parse(url) {
       var obj = void 0;
       if (!url) {
         obj = location;
@@ -38,25 +71,22 @@ var Url = function () {
       if (this.pathname.charAt(0) !== '/') {
         this.pathname = '/' + this.pathname;
       }
-    }
-  }, {
-    key: 'set',
-    value: function set(key, value) {
+    };
+
+    Url.prototype.set = function set(key, value) {
       this[key] = value;
       return this;
-    }
-  }, {
-    key: 'format',
-    value: function format() {
+    };
+
+    Url.prototype.format = function format() {
       if (this.host) {
         return this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
       } else {
         return this.protocol + this.pathname + this.search + this.hash;
       }
-    }
-  }, {
-    key: 'addQuery',
-    value: function addQuery(name, value) {
+    };
+
+    Url.prototype.addQuery = function addQuery(name, value) {
       if (name != null) {
         var obj = void 0;
         if (name.constructor === String) {
@@ -72,50 +102,38 @@ var Url = function () {
       }
 
       return this;
-    }
-  }, {
-    key: 'removeQuery',
-    value: function removeQuery() {
+    };
+
+    Url.prototype.removeQuery = function removeQuery() {
       for (var _len = arguments.length, queries = Array(_len), _key = 0; _key < _len; _key++) {
         queries[_key] = arguments[_key];
       }
 
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+      for (var _iterator = queries, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+        var _ref;
 
-      try {
-        for (var _iterator = queries[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var query = _step.value;
+        if (_isArray) {
+          if (_i >= _iterator.length) break;
+          _ref = _iterator[_i++];
+        } else {
+          _i = _iterator.next();
+          if (_i.done) break;
+          _ref = _i.value;
+        }
 
-          Reflect.deleteProperty(this.query, query);
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
+        var query = _ref;
+
+        Reflect.deleteProperty(this.query, query);
       }
-
       return this;
-    }
-  }, {
-    key: 'setQuery',
-    value: function setQuery(query) {
+    };
+
+    Url.prototype.setQuery = function setQuery(query) {
       this.query = query;
       return this;
-    }
-  }, {
-    key: 'sortQuery',
-    value: function sortQuery(fn) {
+    };
+
+    Url.prototype.sortQuery = function sortQuery(fn) {
       var _this = this;
 
       var arr = [];
@@ -128,100 +146,103 @@ var Url = function () {
       });
       this.query = sortedQuery;
       return this;
-    }
-  }, {
-    key: 'valueOf',
-    value: function valueOf() {
-      return this.format();
-    }
-  }, {
-    key: 'toString',
-    value: function toString() {
-      return this.format();
-    }
-  }, {
-    key: 'host',
-    get: function get() {
-      return this.hostname + (this.port ? ':' + this.port : '');
-    },
-    set: function set(h) {
-      h = h.split(':');
-      this.hostname = h[0];
-      if (h[1]) {
-        this.port = h[1];
-      }
-    }
-  }, {
-    key: 'port',
-    get: function get() {
-      return this._port;
-    },
-    set: function set(p) {
-      if (this.protocol === 'http:' && p === '80' || this.protocol === 'https:' && p === '443') {
-        p = '';
-      }
+    };
 
-      this._port = p || '';
-    }
-  }, {
-    key: 'href',
-    get: function get() {
+    Url.prototype.valueOf = function valueOf() {
       return this.format();
-    },
-    set: function set(url) {
-      this.parse(url);
-    }
-  }, {
-    key: 'search',
-    get: function get() {
-      return Url.formatSearch(this.query);
-    },
-    set: function set(s) {
-      this.query = Url.parseSearch(s);
-    }
-  }]);
+    };
 
-  return Url;
-}();
+    Url.prototype.toString = function toString() {
+      return this.format();
+    };
 
-Url.parseSearch = function (search) {
-  var query = {};
-  if (search.length > 1) {
-    search.slice(1).split('&').forEach(function (s) {
-      var pair = s.split('=');
-      var key = decodeURIComponent(pair[0].replace(/\+/g, ' '));
-      var value = pair.length === 1 ? '' : decodeURIComponent(pair[1].replace(/\+/g, ' '));
-      if (query[key] == null) {
-        query[key] = value;
-      } else {
-        if (query[key].constructor !== Array) {
-          query[key] = [query[key]];
+    _createClass(Url, [{
+      key: 'host',
+      get: function get() {
+        return this.hostname + (this.port ? ':' + this.port : '');
+      },
+      set: function set(h) {
+        h = h.split(':');
+        this.hostname = h[0];
+        if (h[1]) {
+          this.port = h[1];
         }
-        query[key].push(value);
       }
-    });
-  }
-  return query;
-};
+    }, {
+      key: 'port',
+      get: function get() {
+        return this._port;
+      },
+      set: function set(p) {
+        if (this.protocol === 'http:' && p === '80' || this.protocol === 'https:' && p === '443') {
+          p = '';
+        }
 
-Url.formatSearch = function (query) {
-  var search = '';
+        this._port = p || '';
+      }
+    }, {
+      key: 'href',
+      get: function get() {
+        return this.format();
+      },
+      set: function set(url) {
+        this.parse(url);
+      }
+    }, {
+      key: 'search',
+      get: function get() {
+        return Url.formatSearch(this.query);
+      },
+      set: function set(s) {
+        this.query = Url.parseSearch(s);
+      }
+    }]);
 
-  var _loop = function _loop(p) {
-    var k = encodeURIComponent(p);
-    [].concat(query[p]).forEach(function (val) {
-      if (val == null) {
-        return;
-      }
-      search += '&' + k;
-      if (val !== '') {
-        search += '=' + encodeURIComponent(val);
-      }
-    });
+    return Url;
+  }();
+
+  Url.parseSearch = function (search) {
+    var query = {};
+    if (search.length > 1) {
+      search.slice(1).split('&').forEach(function (s) {
+        var pair = s.split('=');
+        var key = decodeURIComponent(pair[0].replace(/\+/g, ' '));
+        var value = pair.length === 1 ? '' : decodeURIComponent(pair[1].replace(/\+/g, ' '));
+        if (query[key] == null) {
+          query[key] = value;
+        } else {
+          if (query[key].constructor !== Array) {
+            query[key] = [query[key]];
+          }
+          query[key].push(value);
+        }
+      });
+    }
+    return query;
   };
 
-  for (var p in query) {
-    _loop(p);
-  }
-  return search ? '?' + search.slice(1) : '';
-};
+  Url.formatSearch = function (query) {
+    var search = '';
+
+    var _loop = function _loop(p) {
+      var k = encodeURIComponent(p);
+      [].concat(query[p]).forEach(function (val) {
+        if (val == null) {
+          return;
+        }
+        search += '&' + k;
+        if (val !== '') {
+          search += '=' + encodeURIComponent(val);
+        }
+      });
+    };
+
+    for (var p in query) {
+      _loop(p);
+    }
+    return search ? '?' + search.slice(1) : '';
+  };
+
+  exports.default = Url;
+  module.exports = exports['default'];
+});

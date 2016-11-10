@@ -170,3 +170,5 @@ Url.formatSearch = function(query) {
   }
   return search ? '?' + search.slice(1) : '';
 };
+
+export default Url;
