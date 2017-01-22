@@ -1,4 +1,7 @@
 # Url
+URL utility for browser.
+
+See [x-url](https://www.npmjs.com/package/x-url) for cross-platform URL utility.
 
 ```js
 // use current location
