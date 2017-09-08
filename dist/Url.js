@@ -121,9 +121,9 @@
           _ref = _i.value;
         }
 
-        var query = _ref;
+        var q = _ref;
 
-        Reflect.deleteProperty(this.query, query);
+        delete this.query[q];
       }
       return this;
     };
@@ -225,8 +225,7 @@
     var search = '';
 
     var _loop = function _loop(p) {
-      var k = encodeURIComponent(p);
-      [].concat(query[p]).forEach(function (val) {
+      var k = encodeURIComponent(p);[].concat(query[p]).forEach(function (val) {
         if (val == null) {
           return;
         }

@@ -1,174 +1,174 @@
 class Url {
   constructor(url) {
-    this.parse(url);
+    this.parse(url)
   }
 
   parse(url) {
-    let obj;
+    let obj
     if (!url) {
-      obj = location;
+      obj = location
     } else {
-      obj = document.createElement('a');
-      obj.href = url;
+      obj = document.createElement('a')
+      obj.href = url
 
       // IE doesn't populate all link properties when setting .href with a relative URL,
       // however .href will return an absolute URL which then can be used on itself
       // to populate these additional fields.
-      obj.href = obj.href;
+      obj.href = obj.href
     }
 
-    this.protocol = obj.protocol;
-    this.hostname = obj.hostname;
-    this.port = obj.port;
-    this.search = obj.search;
-    this.hash = obj.hash;
-    this.query = Url.parseSearch(obj.search);
+    this.protocol = obj.protocol
+    this.hostname = obj.hostname
+    this.port = obj.port
+    this.search = obj.search
+    this.hash = obj.hash
+    this.query = Url.parseSearch(obj.search)
     // pathname doesn't include the leading slash in IE
-    this.pathname = obj.pathname;
+    this.pathname = obj.pathname
     if (this.pathname.charAt(0) !== '/') {
-      this.pathname = '/' + this.pathname;
+      this.pathname = '/' + this.pathname
     }
   }
 
   get host() {
-    return this.hostname + (this.port ? ':' + this.port : '');
+    return this.hostname + (this.port ? ':' + this.port : '')
   }
 
   set host(h) {
-    h = h.split(':');
-    this.hostname = h[0];
+    h = h.split(':')
+    this.hostname = h[0]
     if (h[1]) {
-      this.port = h[1];
+      this.port = h[1]
     }
   }
 
   get port() {
-    return this._port;
+    return this._port
   }
 
   set port(p) {
     if ((this.protocol === 'http:' && p === '80') || (this.protocol === 'https:' && p === '443')) {
-      p = '';
+      p = ''
     }
 
-    this._port = p || '';
+    this._port = p || ''
   }
 
   get href() {
-    return this.format();
+    return this.format()
   }
 
   set href(url) {
-    this.parse(url);
+    this.parse(url)
   }
 
   get search() {
-    return Url.formatSearch(this.query);
+    return Url.formatSearch(this.query)
   }
 
   set search(s) {
-    this.query = Url.parseSearch(s);
+    this.query = Url.parseSearch(s)
   }
 
   set(key, value) {
-    this[key] = value;
-    return this;
+    this[key] = value
+    return this
   }
 
   format() {
     if (this.host) {
-      return this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
+      return this.protocol + '//' + this.host + this.pathname + this.search + this.hash
     } else {
-      return this.protocol + this.pathname + this.search + this.hash;
+      return this.protocol + this.pathname + this.search + this.hash
     }
   }
 
   addQuery(name, value) {
     if (name != null) {
-      let obj;
+      let obj
       if (name.constructor === String) {
-        obj = {};
-        obj[name] = value;
+        obj = {}
+        obj[name] = value
       } else {
-        obj = name;
+        obj = name
       }
 
       for (const p in obj) {
-        this.query[p] = obj[p];
+        this.query[p] = obj[p]
       }
     }
 
-    return this;
+    return this
   }
 
   removeQuery(...queries) {
-    for (const query of queries) {
-      Reflect.deleteProperty(this.query, query);
+    for (const q of queries) {
+      delete this.query[q]
     }
-    return this;
+    return this
   }
 
   setQuery(query) {
-    this.query = query;
-    return this;
+    this.query = query
+    return this
   }
 
   sortQuery(fn) {
-    const arr = [];
+    const arr = []
     for (const key in this.query) {
-      arr.push(key);
+      arr.push(key)
     }
-    const sortedQuery = {};
+    const sortedQuery = {}
     arr.sort(fn).forEach(key => {
-      sortedQuery[key] = this.query[key];
-    });
-    this.query = sortedQuery;
-    return this;
+      sortedQuery[key] = this.query[key]
+    })
+    this.query = sortedQuery
+    return this
   }
 
   valueOf() {
-    return this.format();
+    return this.format()
   }
 
   toString() {
-    return this.format();
+    return this.format()
   }
 }
 Url.parseSearch = function(search) {
-  const query = {};
+  const query = {}
   if (search.length > 1) {
     search.slice(1).split('&').forEach(s => {
-      const pair = s.split('=');
-      const key = decodeURIComponent(pair[0].replace(/\+/g, ' '));
-      const value = pair.length === 1 ? '' : decodeURIComponent(pair[1].replace(/\+/g, ' '));
+      const pair = s.split('=')
+      const key = decodeURIComponent(pair[0].replace(/\+/g, ' '))
+      const value = pair.length === 1 ? '' : decodeURIComponent(pair[1].replace(/\+/g, ' '))
       if (query[key] == null) {
-        query[key] = value;
+        query[key] = value
       } else {
         if (query[key].constructor !== Array) {
-          query[key] = [query[key]];
+          query[key] = [query[key]]
         }
-        query[key].push(value);
+        query[key].push(value)
       }
-    });
+    })
   }
-  return query;
-};
+  return query
+}
 
 Url.formatSearch = function(query) {
-  let search = '';
+  let search = ''
   for (const p in query) {
-    const k = encodeURIComponent(p);
-    [].concat(query[p]).forEach(val => {
+    const k = encodeURIComponent(p)
+    ;[].concat(query[p]).forEach(val => {
       if (val == null) {
-        return;
+        return
       }
-      search += '&' + k;
+      search += '&' + k
       if (val !== '') {
-        search += '=' + encodeURIComponent(val);
+        search += '=' + encodeURIComponent(val)
       }
-    });
+    })
   }
-  return search ? '?' + search.slice(1) : '';
-};
+  return search ? '?' + search.slice(1) : ''
+}
 
-export default Url;
+export default Url

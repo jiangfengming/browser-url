@@ -26,7 +26,7 @@ console.log(url.href);
 console.log(url.addQuery('one', 1).addQuery({
   two: 2,
   foo: 3
-}).removeQuery('one', 'two').href);
+}).removeQuery('a', 'b').href);
 
 console.log(url.setQuery({
   foo: 1,
