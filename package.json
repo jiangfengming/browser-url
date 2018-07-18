@@ -22,6 +22,7 @@
   "homepage": "https://github.com/fenivana/browser-url#readme",
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.54",
+    "@babel/preset-env": "^7.0.0-beta.54",
     "babel-eslint": "^8.2.6",
     "eslint": "^5.1.0",
     "eslint-config-enough": "^0.3.4",
@@ -44,8 +45,5 @@
     "env": {
       "browser": true
     }
-  },
-  "dependencies": {
-    "@babel/preset-env": "^7.0.0-beta.54"
   }
 }
