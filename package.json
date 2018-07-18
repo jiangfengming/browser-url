@@ -1,6 +1,6 @@
 {
   "name": "browser-url",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "URL utility for browser",
   "main": "dist/Url.umd.js",
   "module": "dist/Url.esm.js",
