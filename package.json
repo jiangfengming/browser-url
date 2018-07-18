@@ -2,9 +2,10 @@
   "name": "browser-url",
   "version": "1.3.3",
   "description": "URL utility for browser",
-  "main": "dist/Url.js",
+  "main": "dist/Url.umd.js",
+  "module": "dist/Url.esm.js",
   "scripts": {
-    "build": "babel src -d dist"
+    "build": "rollup -c rollup.config.esm.js && rollup -c rollup.config.umd.js"
   },
   "repository": {
     "type": "git",
@@ -20,27 +21,22 @@
   },
   "homepage": "https://github.com/fenivana/browser-url#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-latest": "^6.16.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "eslint": "^4.6.1",
-    "eslint-config-enough": "^0.2.8"
+    "@babel/core": "^7.0.0-beta.54",
+    "babel-eslint": "^8.2.6",
+    "eslint": "^5.1.0",
+    "eslint-config-enough": "^0.3.4",
+    "rollup": "^0.63.2",
+    "rollup-plugin-babel": "^4.0.0-beta.7"
   },
   "babel": {
     "presets": [
       [
-        "env",
+        "@babel/preset-env",
         {
           "loose": true,
-          "modules": "umd"
+          "modules": false
         }
-      ],
-      "stage-2"
-    ],
-    "plugins": [
-      "add-module-exports"
+      ]
     ]
   },
   "eslintConfig": {
@@ -48,5 +44,8 @@
     "env": {
       "browser": true
     }
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.0.0-beta.54"
   }
 }

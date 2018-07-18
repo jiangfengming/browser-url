@@ -134,11 +134,13 @@ class Url {
     return this.format()
   }
 }
+
 Url.parseSearch = function(search) {
   const query = {}
-  if (search.length > 1) {
-    search.slice(1).split('&').forEach(s => {
-      const pair = s.split('=')
+  if (search[0] === '?') search = search.slice(1)
+  if (search.length) {
+    search.split('&').forEach(s => {
+      const pair = s.split(/=(.+)/)
       const key = decodeURIComponent(pair[0].replace(/\+/g, ' '))
       const value = pair.length === 1 ? '' : decodeURIComponent(pair[1].replace(/\+/g, ' '))
       if (query[key] == null) {

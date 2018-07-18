@@ -1,62 +1,45 @@
 (function (global, factory) {
-  if (typeof define === "function" && define.amd) {
-    define(['module', 'exports'], factory);
-  } else if (typeof exports !== "undefined") {
-    factory(module, exports);
-  } else {
-    var mod = {
-      exports: {}
-    };
-    factory(mod, mod.exports);
-    global.Url = mod.exports;
-  }
-})(this, function (module, exports) {
-  'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global.Url = factory());
+}(this, (function () { 'use strict';
 
-  exports.__esModule = true;
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
     }
   }
 
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+  }
 
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var Url = function () {
+  var Url =
+  /*#__PURE__*/
+  function () {
     function Url(url) {
-      _classCallCheck(this, Url);
-
       this.parse(url);
     }
 
-    Url.prototype.parse = function parse(url) {
-      var obj = void 0;
+    var _proto = Url.prototype;
+
+    _proto.parse = function parse(url) {
+      var obj;
+
       if (!url) {
         obj = location;
       } else {
         obj = document.createElement('a');
-        obj.href = url;
-
-        // IE doesn't populate all link properties when setting .href with a relative URL,
+        obj.href = url; // IE doesn't populate all link properties when setting .href with a relative URL,
         // however .href will return an absolute URL which then can be used on itself
         // to populate these additional fields.
+
         obj.href = obj.href;
       }
 
@@ -65,20 +48,21 @@
       this.port = obj.port;
       this.search = obj.search;
       this.hash = obj.hash;
-      this.query = Url.parseSearch(obj.search);
-      // pathname doesn't include the leading slash in IE
+      this.query = Url.parseSearch(obj.search); // pathname doesn't include the leading slash in IE
+
       this.pathname = obj.pathname;
+
       if (this.pathname.charAt(0) !== '/') {
         this.pathname = '/' + this.pathname;
       }
     };
 
-    Url.prototype.set = function set(key, value) {
+    _proto.set = function set(key, value) {
       this[key] = value;
       return this;
     };
 
-    Url.prototype.format = function format() {
+    _proto.format = function format() {
       if (this.host) {
         return this.protocol + '//' + this.host + this.pathname + this.search + this.hash;
       } else {
@@ -86,9 +70,10 @@
       }
     };
 
-    Url.prototype.addQuery = function addQuery(name, value) {
+    _proto.addQuery = function addQuery(name, value) {
       if (name != null) {
-        var obj = void 0;
+        var obj;
+
         if (name.constructor === String) {
           obj = {};
           obj[name] = value;
@@ -104,42 +89,33 @@
       return this;
     };
 
-    Url.prototype.removeQuery = function removeQuery() {
-      for (var _len = arguments.length, queries = Array(_len), _key = 0; _key < _len; _key++) {
+    _proto.removeQuery = function removeQuery() {
+      for (var _len = arguments.length, queries = new Array(_len), _key = 0; _key < _len; _key++) {
         queries[_key] = arguments[_key];
       }
 
-      for (var _iterator = queries, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-        var _ref;
-
-        if (_isArray) {
-          if (_i >= _iterator.length) break;
-          _ref = _iterator[_i++];
-        } else {
-          _i = _iterator.next();
-          if (_i.done) break;
-          _ref = _i.value;
-        }
-
-        var q = _ref;
-
+      for (var _i = 0; _i < queries.length; _i++) {
+        var q = queries[_i];
         delete this.query[q];
       }
+
       return this;
     };
 
-    Url.prototype.setQuery = function setQuery(query) {
+    _proto.setQuery = function setQuery(query) {
       this.query = query;
       return this;
     };
 
-    Url.prototype.sortQuery = function sortQuery(fn) {
+    _proto.sortQuery = function sortQuery(fn) {
       var _this = this;
 
       var arr = [];
+
       for (var key in this.query) {
         arr.push(key);
       }
+
       var sortedQuery = {};
       arr.sort(fn).forEach(function (key) {
         sortedQuery[key] = _this.query[key];
@@ -148,28 +124,29 @@
       return this;
     };
 
-    Url.prototype.valueOf = function valueOf() {
+    _proto.valueOf = function valueOf() {
       return this.format();
     };
 
-    Url.prototype.toString = function toString() {
+    _proto.toString = function toString() {
       return this.format();
     };
 
     _createClass(Url, [{
-      key: 'host',
+      key: "host",
       get: function get() {
         return this.hostname + (this.port ? ':' + this.port : '');
       },
       set: function set(h) {
         h = h.split(':');
         this.hostname = h[0];
+
         if (h[1]) {
           this.port = h[1];
         }
       }
     }, {
-      key: 'port',
+      key: "port",
       get: function get() {
         return this._port;
       },
@@ -181,7 +158,7 @@
         this._port = p || '';
       }
     }, {
-      key: 'href',
+      key: "href",
       get: function get() {
         return this.format();
       },
@@ -189,7 +166,7 @@
         this.parse(url);
       }
     }, {
-      key: 'search',
+      key: "search",
       get: function get() {
         return Url.formatSearch(this.query);
       },
@@ -203,21 +180,26 @@
 
   Url.parseSearch = function (search) {
     var query = {};
-    if (search.length > 1) {
-      search.slice(1).split('&').forEach(function (s) {
-        var pair = s.split('=');
+    if (search[0] === '?') search = search.slice(1);
+
+    if (search.length) {
+      search.split('&').forEach(function (s) {
+        var pair = s.split(/=(.+)/);
         var key = decodeURIComponent(pair[0].replace(/\+/g, ' '));
         var value = pair.length === 1 ? '' : decodeURIComponent(pair[1].replace(/\+/g, ' '));
+
         if (query[key] == null) {
           query[key] = value;
         } else {
           if (query[key].constructor !== Array) {
             query[key] = [query[key]];
           }
+
           query[key].push(value);
         }
       });
     }
+
     return query;
   };
 
@@ -225,11 +207,14 @@
     var search = '';
 
     var _loop = function _loop(p) {
-      var k = encodeURIComponent(p);[].concat(query[p]).forEach(function (val) {
+      var k = encodeURIComponent(p);
+      [].concat(query[p]).forEach(function (val) {
         if (val == null) {
           return;
         }
+
         search += '&' + k;
+
         if (val !== '') {
           search += '=' + encodeURIComponent(val);
         }
@@ -239,9 +224,10 @@
     for (var p in query) {
       _loop(p);
     }
+
     return search ? '?' + search.slice(1) : '';
   };
 
-  exports.default = Url;
-  module.exports = exports['default'];
-});
+  return Url;
+
+})));
